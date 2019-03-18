@@ -1,0 +1,222 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.javaee</groupId>
+  <artifactId>maven3</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  
+  <name>Maven-JavaEE</name>
+  <description>A shorty description about Maven-JavaEE</description>
+  <developers>
+    <developer>
+      <id>benfarhat</id>
+      <name>Benfarhat Elyes</name>
+      <email>benfarhat.elyes@benfarhat.com</email>
+      <url>http://www.github.com/benfarhat</url>
+      <organization>ACME</organization>
+      <organizationUrl>http://www.myOrganization.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>America/Montreal</timezone>
+      <properties>
+        <picUrl>https://avatars3.githubusercontent.com/u/1620009</picUrl>
+      </properties>
+    </developer>
+  </developers>
+
+  <organization>
+    <name>Java</name>
+    <url>http://www.java.com</url>
+  </organization>
+  
+  <licenses>
+      <license>
+        <name>Apache License, Version 2.0</name>
+        <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+        <comments>A business-friendly OSS license</comments>
+      </license>
+    </licenses>
+    
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <java.version>1.8</java.version>
+		
+    <junit.plateform.version>5.4.0</junit.plateform.version>
+    <junit.plateform.engin.version>1.4.0</junit.plateform.engin.version>
+    <derby.version>10.14.2.0</derby.version>
+		
+    <continuous.server.name>localCI</continuous.server.name>
+    <continuous.server.ip>127.0.0.1</continuous.server.ip>
+  </properties>
+
+
+  <dependencies>
+  
+	<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+	<dependency>
+	    <groupId>javax.persistence</groupId>
+	    <artifactId>javax.persistence-api</artifactId>
+	    <version>2.2</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+	<dependency>
+	    <groupId>org.eclipse.persistence</groupId>
+	    <artifactId>eclipselink</artifactId>
+	    <version>2.7.4</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.apache.derby/derbyclient -->
+	<dependency>
+	    <groupId>org.apache.derby</groupId>
+	    <artifactId>derbyclient</artifactId>
+	    <version>${derby.version}</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.derby/derby -->
+	<dependency>
+	    <groupId>org.apache.derby</groupId>
+	    <artifactId>derby</artifactId>
+	    <version>${derby.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+	<dependency>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-api</artifactId>
+	    <version>${junit.plateform.version}</version>
+	    <scope>test</scope>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-engine -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-engine</artifactId>
+	    <version>${junit.plateform.engin.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-launcher</artifactId>
+	    <version>${junit.plateform.engin.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-runner</artifactId>
+	    <version>${junit.plateform.engin.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
+	<dependency>
+	    <groupId>org.junit.vintage</groupId>
+	    <artifactId>junit-vintage-engine</artifactId>
+	    <version>${junit.plateform.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+
+  </dependencies>
+  
+   <build>
+   <finalName>${project.artifactId}-${project.version}</finalName>
+
+    <directory>${project.basedir}/target</directory>
+    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+    <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
+    
+    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+    <scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
+    <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+    
+
+    <resources>
+      <resource>
+        <targetPath>META-INF/</targetPath>
+        <filtering>false</filtering>
+        <directory>${project.basedir}/src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.properties</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <targetPath>META-INF/</targetPath>
+        <filtering>false</filtering>
+        <directory>${project.basedir}/src/test/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.properties</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      
+        <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.19</version>
+            <dependencies>
+                <dependency>
+                    <groupId>org.junit.platform</groupId>
+                    <artifactId>junit-platform-surefire-provider</artifactId>
+                    <version>1.3.2</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+        
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.1</version>
+        <configuration>
+          <warSourceDirectory>WebContent</warSourceDirectory>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <useCache>true</useCache>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <ciManagement>
+    <system>${continuous.server.name}</system>
+    <url>${continuous.server.ip}</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+        <configuration><address>${continuous.server.name}@${continuous.server.name}</address></configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+</project>
