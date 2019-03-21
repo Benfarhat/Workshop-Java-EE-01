@@ -50,8 +50,8 @@
     
     <java.version>1.8</java.version>
 		
-    <junit.plateform.version>5.4.0</junit.plateform.version>
-    <junit.plateform.engin.version>1.4.0</junit.plateform.engin.version>
+    <junit.plateform.version>5.4.1</junit.plateform.version>
+    <junit.plateform.engine.version>1.4.1</junit.plateform.engine.version>
     <derby.version>10.14.2.0</derby.version>
 		
     <continuous.server.name>localCI</continuous.server.name>
@@ -97,28 +97,12 @@
 	    <version>${junit.plateform.version}</version>
 	    <scope>test</scope>
 	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-engine -->
-	<dependency>
-	    <groupId>org.junit.platform</groupId>
-	    <artifactId>junit-platform-engine</artifactId>
-	    <version>${junit.plateform.engin.version}</version>
-	    <scope>test</scope>
-	</dependency>
 
-	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
+	<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
 	<dependency>
-	    <groupId>org.junit.platform</groupId>
-	    <artifactId>junit-platform-launcher</artifactId>
-	    <version>${junit.plateform.engin.version}</version>
-	    <scope>test</scope>
-	</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
-	<dependency>
-	    <groupId>org.junit.platform</groupId>
-	    <artifactId>junit-platform-runner</artifactId>
-	    <version>${junit.plateform.engin.version}</version>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-engine</artifactId>
+	    <version>${junit.plateform.version}</version>
 	    <scope>test</scope>
 	</dependency>
 
@@ -129,13 +113,37 @@
 	    <version>${junit.plateform.version}</version>
 	    <scope>test</scope>
 	</dependency>
+		
+	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-engine -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-engine</artifactId>
+	    <version>${junit.plateform.engine.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-launcher</artifactId>
+	    <version>${junit.plateform.engine.version}</version>
+	    <scope>test</scope>
+	</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-runner</artifactId>
+	    <version>${junit.plateform.engine.version}</version>
+	    <scope>test</scope>
+	</dependency>
 
 
   </dependencies>
   
    <build>
    <finalName>${project.artifactId}-${project.version}</finalName>
-
+<!--  
     <directory>${project.basedir}/target</directory>
     <outputDirectory>${project.build.directory}/classes</outputDirectory>
     <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
@@ -143,7 +151,7 @@
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
     <scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
-    
+    -->
 
     <resources>
       <resource>
@@ -183,7 +191,7 @@
       
         <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.19</version>
+            <version>2.22.1</version>
             <dependencies>
                 <dependency>
                     <groupId>org.junit.platform</groupId>
