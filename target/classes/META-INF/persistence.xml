@@ -6,16 +6,31 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 >
 	<persistence-unit name="workshopJavaEE01" transaction-type="RESOURCE_LOCAL">
-		<description>Persistence Unit niveau production</description>
+		<description>Persistence Unit for production</description>
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>Book</class>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <class>model.Item</class>
+        <class>model.Address</class>
+		<class>model.CD</class>
+		<class>model.Customer</class>
+		<class>model.Order</class>
+		<class>model.OrderLine</class>
+		<class>model.Book</class>
+		
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <properties>
-        	<property name="eclipselink.target-database" value="DERBY"/>
+            <property name="eclipselink.target-database" value="DERBY"/>
         	<property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-        	<property name="eclipselink.jdbc.url" value="jdbc:derby://localhost:1527/workshopJavaEE01;create=true"/>
-        	<property name="eclipselink.jdbc.user" value="APP"/>
-        	<property name="eclipselink.jdbc.password" value="APP"/>
+        	<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/workshopJavaEE01;create=true"/>
+        	<property name="javax.persistence.jdbc.user" value="APP"/>
+        	<property name="javax.persistence.jdbc.password" value="APP"/>
+        	
+        	<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+            <property name="eclipselink.jdbc.cache-statements" value="true"/>
+            <property name="eclipselink.jdbc.batch-writing.size" value="30"/>
+            
+            
         	<property name="eclipselink.ddl-generation" value="create-tables"/>
         	<property name="eclipselink.logging.level" value="INFO"/>
         	<property name="eclipselink.logging.timestamp" value="True"/>

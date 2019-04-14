@@ -89,11 +89,27 @@
 	    <version>${derby.version}</version>
 	    <scope>test</scope>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-testing -->
+	<dependency>
+	    <groupId>org.hibernate.orm</groupId>
+	    <artifactId>hibernate-testing</artifactId>
+	    <version>6.0.0.Alpha2</version>
+	</dependency>
+		
 
 	<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 	<dependency>
 	    <groupId>org.junit.jupiter</groupId>
 	    <artifactId>junit-jupiter-api</artifactId>
+	    <version>${junit.plateform.version}</version>
+	    <scope>test</scope>
+	</dependency>
+	
+	
+	<dependency>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-params</artifactId>
 	    <version>${junit.plateform.version}</version>
 	    <scope>test</scope>
 	</dependency>
