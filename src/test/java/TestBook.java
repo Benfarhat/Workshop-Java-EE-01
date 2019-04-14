@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -23,7 +22,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import model.Book;
 
 @DisplayName("Testing book entity")
-class AppTest {
+class TestBook {
     
 	private static EntityManagerFactory emf;
     private static EntityManager em;
@@ -88,9 +87,9 @@ class AppTest {
         );
     }
     
-    @DisplayName("Create Single Book")
+    @DisplayName("Test Find Operations")
     @Test
-    void singleCreateBook() {
+    void testFindOperationOnBook() {
         Book book = new Book();
         book.setTitle("ALITA - BATTLE ANGEL");
         book.setPrice(12.5F);
@@ -106,9 +105,19 @@ class AppTest {
         @SuppressWarnings("unchecked")
 		List<Book> books = em.createNamedQuery("Book.findAll").getResultList();
         assertAll(
-        		() -> assertNotNull(book.getId(), () -> "ID should not be null"),
-        		() -> assertFalse(book.getTitle().isEmpty(), () -> "Title should not be empty"),
-        		() -> assertNotNull(books, () -> "Result list should not be null")
+        		() -> assertNotNull(
+        				book.getId(), 
+        				() -> "ID should not be null"),
+        		() -> assertSame(
+        				(Book) em.createNamedQuery("Book.findById").setParameter("id", book.getId()).getSingleResult(),
+        				em.find(Book.class,  book.getId()),
+        				() -> "different find methods should get the same result"),
+        		() -> assertFalse(
+        				book.getTitle().isEmpty(), 
+        				() -> "Title should not be empty"),
+        		() -> assertNotNull(
+        				books, 
+        				() -> "Result list should not be null")
         );
     }
 }

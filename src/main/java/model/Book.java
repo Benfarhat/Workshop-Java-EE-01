@@ -17,8 +17,10 @@ import javax.persistence.Table;
             query="SELECT b FROM Book b"),
     @NamedQuery(name="Book.countAll",
     		query="SELECT COUNT(b) FROM Book b"),
+    @NamedQuery(name="Book.findById",
+    	query="SELECT b FROM Book b WHERE b.id = :id"),
     @NamedQuery(name="Book.findByTitle",
-                query="SELECT b FROM Book b WHERE b.title = :title")
+    	query="SELECT b FROM Book b WHERE b.title = :title")
 }) 
 /*
  * Vu que l'entité hérite de la class Item, on peut laisser JPA mettre le contenu des classes filles
