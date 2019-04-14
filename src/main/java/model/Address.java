@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -8,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-@Access(AccessType.PROPERTY)
-public class Address {
+@Access(AccessType.FIELD)
+public class Address implements Serializable{
 	@Id @GeneratedValue
 	private Long id;
 	private String street1;

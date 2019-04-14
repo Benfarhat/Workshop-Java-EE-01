@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,8 +42,8 @@ public class Customer implements Serializable {
 	private String email;
 	@Column( name = "phone_number", length = 20)
 	private String phoneNumber;
-	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "address_fk", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@JoinColumn(nullable = false)
 	private Address address;
 	
 	
