@@ -153,7 +153,8 @@ class TestCustomerAddress {
         em.persist(customer);
         em.persist(address);
         tx.commit();
-
+        log.info(customer.getVersion()); // 1
+        
         assertNotNull(
         		em.createNamedQuery("Customer.findByFirstName")
 	        		.setParameter("firstName", "Thomas")
@@ -162,8 +163,10 @@ class TestCustomerAddress {
         		);
         tx.begin();
         customer.setFirstName("Mike");
+
         em.merge(customer);
         tx.commit();
+        log.info(customer.getVersion()); // 2
 
         assertEquals(
         		(int) em.createNamedQuery("Customer.findByFirstName")

@@ -136,6 +136,11 @@ public class Customer implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	public Integer getVersion() {
+		return version;
+	}
    
+	
 	
 }
