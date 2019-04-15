@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.LockModeType;
 import javax.persistence.Persistence;
 
 import org.apache.log4j.Logger;
@@ -24,7 +25,6 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import model.Address;
-import model.Book;
 import model.Customer;
 
 @DisplayName("Testing customer and address entities")
@@ -77,7 +77,7 @@ class TestCustomerAddress {
         em.persist(customer);
         em.persist(address);
         tx.commit();
-        
+
         @SuppressWarnings("unchecked")
 		List<Customer> customers = em.createNamedQuery("Customer.findAll").getResultList();
         assertAll(
@@ -85,7 +85,10 @@ class TestCustomerAddress {
         				customer.getId(), 
         				() -> "ID should not be null"),
         		() -> assertSame(
-        				(Customer) em.createNamedQuery("Customer.findById").setParameter("id", customer.getId()).getSingleResult(),
+        				(Customer) em.createNamedQuery("Customer.findById")
+	        				.setParameter("id", customer.getId())
+	        				//.setLockMode(LockModeType.OPTIMISTIC)
+	        				.getSingleResult(),
         				em.find(Customer.class,  customer.getId()),
         				() -> "different find methods should get the same result"),
         		() -> assertFalse(
@@ -152,7 +155,9 @@ class TestCustomerAddress {
         tx.commit();
 
         assertNotNull(
-        		em.createNamedQuery("Customer.findByFirstName").setParameter("firstName", "Thomas").getResultList(),
+        		em.createNamedQuery("Customer.findByFirstName")
+	        		.setParameter("firstName", "Thomas")
+	        		.getResultList(),
         		() -> "we should get a customer called Thomas"
         		);
         tx.begin();
@@ -161,12 +166,17 @@ class TestCustomerAddress {
         tx.commit();
 
         assertEquals(
-        		(int) em.createNamedQuery("Customer.findByFirstName").setParameter("firstName", "Thomas").getResultList().size(),
+        		(int) em.createNamedQuery("Customer.findByFirstName")
+	        		.setParameter("firstName", "Thomas")
+	        		.getResultList()
+	        		.size(),
         		(int) 0,
         		() -> "customer change its name, Thomas did not exist for em"
         		);
         assertNotNull(
-        		em.createNamedQuery("Customer.findByFirstName").setParameter("firstName", "Mike").getResultList(),
+        		em.createNamedQuery("Customer.findByFirstName")
+	        		.setParameter("firstName", "Mike")
+	        		.getResultList(),
         		() -> "This time we should find a customer called Mike"
         		);
     }
