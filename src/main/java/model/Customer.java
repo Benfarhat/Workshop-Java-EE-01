@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 @NamedQueries({
@@ -45,6 +46,8 @@ public class Customer implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@JoinColumn(nullable = false)
 	private Address address;
+	@Version
+	private Integer version;
 	
 	
 
