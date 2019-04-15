@@ -57,7 +57,10 @@ class TestCustomerAddress {
 
     @AfterEach
     void tearDown() throws Exception {
-    	log.info("Clean");
+    	tx.begin();
+    	int touched = em.createQuery("DELETE from Customer c").executeUpdate();
+    	log.info("Deleting " + touched + " elements and cleaning em.");
+    	tx.commit();
     	em.clear();
     }
 
