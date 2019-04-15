@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -19,11 +20,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 import model.Address;
+import model.Book;
 import model.Customer;
 
 @DisplayName("Testing customer and address entities")
+@RunWith(JUnitPlatform.class)
 class TestCustomerAddress {
 	private static EntityManagerFactory emf;
     private static EntityManager em;
@@ -53,6 +58,7 @@ class TestCustomerAddress {
     @AfterEach
     void tearDown() throws Exception {
     	log.info("Clean");
+    	em.clear();
     }
 
 
@@ -88,7 +94,7 @@ class TestCustomerAddress {
         );
         
     }
-    
+
 
     @DisplayName("Test Orphan deletion")
     @Test
@@ -124,6 +130,41 @@ class TestCustomerAddress {
         		() -> "We should not find orphan address with id: " 
         				+ indexA 
         				+ ", after deleting its corresponding customer."
+        		);
+    }
+
+
+
+    @DisplayName("Modify entity")
+    @Test
+    void testModifyEntity() {
+
+    	Customer customer = new Customer("Thomas", "Reid", "Thomas.PReid@example.com");
+    	Address address = new Address("1256  Cordova Street", "", "Vancouver", "British Columbia", "V6B 1E1", "Canada");
+    	customer.setAddress(address);
+    	
+        tx.begin();
+        em.persist(customer);
+        em.persist(address);
+        tx.commit();
+
+        assertNotNull(
+        		em.createNamedQuery("Customer.findByFirstName").setParameter("firstName", "Thomas").getResultList(),
+        		() -> "we should get a customer called Thomas"
+        		);
+        tx.begin();
+        customer.setFirstName("Mike");
+        em.merge(customer);
+        tx.commit();
+
+        assertEquals(
+        		(int) em.createNamedQuery("Customer.findByFirstName").setParameter("firstName", "Thomas").getResultList().size(),
+        		(int) 0,
+        		() -> "customer change its name, Thomas did not exist for em"
+        		);
+        assertNotNull(
+        		em.createNamedQuery("Customer.findByFirstName").setParameter("firstName", "Mike").getResultList(),
+        		() -> "This time we should find a customer called Mike"
         		);
     }
 
