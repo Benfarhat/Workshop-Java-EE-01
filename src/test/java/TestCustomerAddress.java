@@ -154,14 +154,15 @@ class TestCustomerAddress {
         em.persist(address);
         tx.commit();
         log.info(customer.getVersion()); // 1
-        
+        tx.begin();
+        em.lock(customer, LockModeType.OPTIMISTIC);
         assertNotNull(
         		em.createNamedQuery("Customer.findByFirstName")
 	        		.setParameter("firstName", "Thomas")
 	        		.getResultList(),
         		() -> "we should get a customer called Thomas"
         		);
-        tx.begin();
+        
         customer.setFirstName("Mike");
 
         em.merge(customer);
