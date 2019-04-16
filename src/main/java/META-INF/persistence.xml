@@ -25,6 +25,7 @@
         	<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/workshopJavaEE01;create=true"/>
         	<property name="javax.persistence.jdbc.user" value="APP"/>
         	<property name="javax.persistence.jdbc.password" value="APP"/>
+            <property name="javax.persistence.lock.timeout" value="1500"/>
         	
         	<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
             <property name="eclipselink.jdbc.cache-statements" value="true"/>
