@@ -1,6 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -48,6 +58,11 @@ public class Customer implements Serializable {
 	private Address address;
 	@Version
 	private Integer version;
+	@Temporal(TemporalType.DATE)
+	private Date dateOfBirth;
+	@Transient
+	private Integer age;
+	
 	
 	
 
@@ -140,7 +155,46 @@ public class Customer implements Serializable {
 	public Integer getVersion() {
 		return version;
 	}
+
+	public Integer getAge() {
+		return age;
+	}
    
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	@PrePersist
+	@PreUpdate
+	private void validate() {
+		if (dateOfBirth.getTime() > new Date().getTime()) {
+			throw new IllegalArgumentException("Invalid date of birth");
+		}
+	}
 	
+	@PostLoad
+	@PostPersist
+	@PostUpdate
+	public void calculcateAge() {
+		if (dateOfBirth == null) {
+			age = null;
+			return;
+		}
+		
+		Calendar birth = new GregorianCalendar();
+		birth.setTime(dateOfBirth);
+		Calendar now  = new GregorianCalendar();
+		now.setTime(new Date());
+		
+		int adjust = 0;
+		if (now.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR) < 0) {
+			adjust = -1;
+		}
+		age = now.getActualMaximum(Calendar.YEAR) - birth.getActualMaximum(Calendar.YEAR) + adjust;
+	}
 	
 }
