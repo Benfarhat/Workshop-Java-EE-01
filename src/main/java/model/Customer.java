@@ -1,13 +1,14 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.ExcludeDefaultListeners;
+import javax.persistence.ExcludeSuperclassListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,15 +16,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.PostLoad;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import listener.AgeCalculationListener;
+import listener.ValidateBirthDateListener;
 
 @Entity
 @NamedQueries({
@@ -40,6 +39,12 @@ import javax.persistence.Version;
     @NamedQuery(name="Customer.findByEmail",
 		query="SELECT c FROM Customer c WHERE c.email = :email")
 }) 
+@ExcludeSuperclassListeners
+@ExcludeDefaultListeners
+@EntityListeners({
+	AgeCalculationListener.class,
+	ValidateBirthDateListener.class
+})
 public class Customer implements Serializable {
 
 	@Transient
@@ -159,6 +164,10 @@ public class Customer implements Serializable {
 	public Integer getAge() {
 		return age;
 	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
    
 	public Date getDateOfBirth() {
 		return dateOfBirth;
@@ -168,33 +177,6 @@ public class Customer implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	@PrePersist
-	@PreUpdate
-	private void validate() {
-		if (dateOfBirth.getTime() > new Date().getTime()) {
-			throw new IllegalArgumentException("Invalid date of birth");
-		}
-	}
 	
-	@PostLoad
-	@PostPersist
-	@PostUpdate
-	public void calculcateAge() {
-		if (dateOfBirth == null) {
-			age = null;
-			return;
-		}
-		
-		Calendar birth = new GregorianCalendar();
-		birth.setTime(dateOfBirth);
-		Calendar now  = new GregorianCalendar();
-		now.setTime(new Date());
-		
-		int adjust = 0;
-		if (now.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR) < 0) {
-			adjust = -1;
-		}
-		age = now.getActualMaximum(Calendar.YEAR) - birth.getActualMaximum(Calendar.YEAR) + adjust;
-	}
 	
 }
