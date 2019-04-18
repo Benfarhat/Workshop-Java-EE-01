@@ -18,6 +18,7 @@
         <class>model.Book</class>
         
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
         <shared-cache-mode>ALL</shared-cache-mode>
         <properties>
         	<property name="eclipselink.target-database" value="DERBY"/>
